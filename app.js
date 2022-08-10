@@ -6,6 +6,8 @@ const dbConnect = require('./util/database');
 const userRoutes = require('./routes/index');
 const User = require('./models/user');
 
+const userController = require('./controllers/user');
+
 const app = express();
 
 // Template engine
@@ -16,14 +18,7 @@ app.set('views', 'views');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use((req, res, next) => {
-  User.findById('62f258c5f303a1cb52676250')
-    .then((user) => {
-      req.user = user;
-      next();
-    })
-    .catch((err) => console.log(err));
-});
+app.use(userController.checkedIn);
 
 // Routes
 app.use(userRoutes);
