@@ -1,0 +1,42 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+@media (min-width: 1200px) {
+  .container-fluid {
+    padding: 0;
+  }
+
+  .container {
+    max-width: 95%;
+  }
+}
+
+.navbar {
+  padding: 1rem 0;
+  border-bottom: 1px solid #d0d7de;
+}
+
+.logo {
+  font-size: 1rem;
+  object-fit: 100%;
+}
+
+.page-content {
+  display: flex;
+}
+
+.navigation {
+  text-align: left;
+  width: 50%;
+}
