@@ -1,51 +1,109 @@
-/* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
-.flip-card {
-  background-color: transparent;
-  width: 400px;
-  height: 350px;
-  border: 1px solid #f1f1f1;
-  perspective: 1000px; /* Remove this if you don't want the 3D effect */
-}
-
-/* This container is needed to position the front and back side */
-.flip-card-inner {
+.home {
+  width: 100%;
   position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 0.8s;
-  transform-style: preserve-3d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  vertical-align: baseline;
+  top: 10%;
 }
 
-/* Do an horizontal flip when you move the mouse over the flip box container */
-.flip-card:hover .flip-card-inner {
-  transform: rotateY(180deg);
+.wrapper {
+  /* position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); */
+  background: #d0bbe5;
+  padding: 50px 55px 50px;
+  border-radius: 5px;
 }
 
-/* Position the front and back side */
-.flip-card-front,
-.flip-card-back {
+.wrapper:before {
+  content: '';
   position: absolute;
+  top: 11px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 13px;
+  background: #b696d7;
+  border-radius: 50px;
+}
+
+.wrapper:after {
+  content: '';
+  position: absolute;
+  top: -53px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 70px;
+  background: #353535;
+  box-shadow: 0 5px 5px rgb(0 0 0 / 13%);
+}
+
+.card {
+  width: 400px;
+  height: 600px;
+  background: #fff;
+  padding: 20px 20px 0;
+  position: relative;
+  border-radius: 5px;
+}
+
+.card img {
   width: 100%;
-  height: 100%;
-  -webkit-backface-visibility: hidden; /* Safari */
-  backface-visibility: hidden;
+  margin-bottom: 1rem;
 }
 
-/* Style the front side (fallback if image is missing) */
-.flip-card-front {
-  background-color: #bbb;
-  color: black;
+.card .details__item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2rem;
 }
 
-/* Style the back side */
-.flip-card-back {
-  text-align: left;
-  background-color: dodgerblue;
-  color: white;
-  transform: rotateY(180deg);
+.details__item > span:first-child {
+  font-weight: bold;
 }
 
-.card-back__content {
-  padding: 1rem;
+.details__item .online {
+  width: 1rem;
+  height: 1rem;
+  background-color: orange;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.online ~ span {
+  color: orange;
+}
+
+.details__item .offline {
+  width: 1rem;
+  height: 1rem;
+  background-color: #212529;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.card .info {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+  padding: 20px;
+  background: #353535;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.card p {
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  font-weight: 400;
+  color: #fff;
+  text-align: center;
+  font-size: 1.2rem;
 }

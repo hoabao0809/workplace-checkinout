@@ -37,57 +37,65 @@ const userSchema = new Schema({
 
 userSchema.methods.checkStatus = function (type, workplace) {
   const user = this;
+  console.log(user);
   let currentAttendId;
   return Status.findOne({ userId: user._id }).then((status) => {
     currentAttendId = status.attendId;
-    if (type === 'checkIn') {
-      return this.addAttendance(
-        currentAttendId,
-        new Date().toLocaleDateString(),
-        new Date(),
-        workplace
-      )
-        .then((result) => {
-          currentAttendId = result._id;
-          return Status.findOne({ userId: user._id });
-        })
-        .then((status) => {
-          status.attendId = currentAttendId;
-          status.workplace = workplace;
-          status.isWorking = true;
-          return status.save();
-        })
-        .catch((err) => console.log(err));
+
+    switch (type) {
+      case 'checkIn':
+        return this.checkIn(currentAttendId, new Date(), workplace)
+          .then((result) => {
+            currentAttendId = result._id;
+            return Status.findOne({ userId: user._id });
+          })
+          .then((_status) => {
+            _status.attendId = currentAttendId;
+            _status.workplace = workplace;
+            _status.isWorking = true;
+            return _status.save();
+          })
+          .catch((err) => console.log(err));
+
+      case 'checkOut':
+        return this.checkOut(currentAttendId, new Date())
+          .then((_result) => {
+            return Status.findOne({ userId: user._id });
+          })
+          .then((_status) => {
+            _status.isWorking = false;
+            _status.workplace = 'Chưa xác định';
+            return _status.save();
+          })
+          .catch((err) => console.log(err));
     }
   });
 };
 
-// Start Working
-userSchema.methods.addAttendance = function (
-  attendId,
-  date,
-  startTime,
-  workplace
-) {
+// Check In
+userSchema.methods.checkIn = function (attendId, startTime, workplace) {
+  let date = startTime.toLocaleDateString();
+
   if (attendId) {
     return Attendance.findById(attendId).then((attendance) => {
-      // Check if the attendance is not finished
+      console.log(attendId);
+      // Check if user has not checked out
       if (date === attendance.date) {
         attendance.details.unshift({
-          startTime: startTime,
+          startTime,
           endTime: null,
-          workplace: workplace,
+          workplace,
         });
         return attendance.save();
       } else {
         const newAttend = new Attendance({
           userId: this._id,
-          date: date,
+          date,
           details: [
             {
-              startTime: startTime,
+              startTime,
               endTime: null,
-              workplace: workplace,
+              workplace,
             },
           ],
         });
@@ -97,17 +105,25 @@ userSchema.methods.addAttendance = function (
   } else {
     const newAttend = new Attendance({
       userId: this._id,
-      date: date,
+      date,
       details: [
         {
-          startTime: startTime,
+          startTime,
           endTime: null,
-          workplace: workplace,
+          workplace,
         },
       ],
     });
     return newAttend.save();
   }
+};
+
+// Check Out
+userSchema.methods.checkOut = function (attendId, endTime) {
+  return Attendance.findById(attendId).then((attendance) => {
+    attendance.details[0].endTime = endTime;
+    return attendance.save();
+  });
 };
 
 module.exports = mongoose.model('User', userSchema);

@@ -10,5 +10,6 @@ router.get('/', userController.getHome);
 // Attendance page
 router.get('/attendance', attendanceController.getAttendance);
 router.post('/attendance', attendanceController.postAttendance)
+router.get('/attendance-details', attendanceController.getAttendanceDetails)
 
 module.exports = router;

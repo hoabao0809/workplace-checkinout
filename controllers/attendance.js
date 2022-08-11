@@ -12,10 +12,18 @@ exports.postAttendance = (req, res, next) => {
   req.user
     .checkStatus(type, workplace)
     .then((status) => {
-      if (type === 'start') {
-        res.redirect('/');
+      switch (type) {
+        case 'checkIn':
+          res.redirect('/');
+          return;
+        case 'checkOut':
+          res.redirect('/attendance-details');
+          return;
       }
-      res.redirect('/attendance-details');
     })
     .catch((err) => console.log(err));
+};
+
+exports.getAttendanceDetails = (req, res, next) => {
+  res.render('attendance-details');
 };
