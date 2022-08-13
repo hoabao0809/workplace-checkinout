@@ -37,7 +37,6 @@ const userSchema = new Schema({
 
 userSchema.methods.checkStatus = function (type, workplace) {
   const user = this;
-  console.log(user);
   let currentAttendId;
   return Status.findOne({ userId: user._id }).then((status) => {
     currentAttendId = status.attendId;
@@ -123,6 +122,16 @@ userSchema.methods.checkOut = function (attendId, endTime) {
   return Attendance.findById(attendId).then((attendance) => {
     attendance.details[0].endTime = endTime;
     return attendance.save();
+  });
+};
+
+userSchema.methods.getAttendanceDetails = function () {
+  return Status.findOne({ userId: this._id }).then((status) => {
+    return Attendance.findById(status.attendId)
+      .then((result) => {
+        return result;
+      })
+      .catch((err) => console.log(err));
   });
 };
 

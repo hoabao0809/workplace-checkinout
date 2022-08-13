@@ -1,4 +1,11 @@
-<%- include('./includes/head.ejs') %> <% if (!user.isWorking) { %>
+<%- include('./includes/head.ejs') %>
+<link rel="stylesheet" href="/assets/css/<%= css %>.css">
+</head>
+
+<body>
+<%- include('./includes/navigation.ejs') %>
+
+<% if (!user.isWorking) { %>
 <div class="">
   <h1>Check in</h1>
   <form action="/attendance?type=checkIn" method="POST">
@@ -10,7 +17,7 @@
     <input type="submit" value="Bắt đầu" />
   </form>
 </div>
-<div class="absence">
+<div class="offduty">
   <a href="/absence">Đăng ký nghỉ phép</a>
 </div>
 <% } else { %>
@@ -20,4 +27,5 @@
     <input type="submit" value="Kết thúc" />
   </form>
 </div>
-<% } %> <%- include('./includes/footer.ejs') %>
+<% } %> 
+<%- include('./includes/footer.ejs') %>

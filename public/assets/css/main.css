@@ -46,6 +46,8 @@ ul {
 
 .main {
   width: 70%;
+  display: flex;
+  justify-content: center;
 }
 
 .nav-item {

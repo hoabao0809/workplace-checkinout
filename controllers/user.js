@@ -34,3 +34,20 @@ exports.checkedIn = (req, res, next) => {
     })
     .catch((err) => console.log(err));
 };
+
+exports.getUserDetail = (req, res, next) => {
+  User.findById(req.user._id)
+    .then((user) => {
+      console.log(user);
+      res.render('user-detail', {
+        pageTitle: 'Chi tiết nhân viên',
+        user,
+        css: 'user-detail',
+      });
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.postUserDetail = (req, res, next) => {
+  const { image, id } = req.body;
+};

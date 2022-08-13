@@ -1,7 +1,10 @@
+const Attendance = require('../models/attendance');
+
 exports.getAttendance = (req, res, next) => {
   res.render('attendance', {
     user: req.user,
-    pageTitle: 'Register attendance',
+    pageTitle: 'Đăng ký làm việc',
+    css: 'register'
   });
 };
 
@@ -25,5 +28,14 @@ exports.postAttendance = (req, res, next) => {
 };
 
 exports.getAttendanceDetails = (req, res, next) => {
-  res.render('attendance-details');
+  req.user
+    .getAttendanceDetails()
+    .then((attendance) => {
+      res.render('attendance-details', {
+        attendance,
+        pageTitle: 'Dữ liệu giờ làm',
+        css: 'attendance-details',
+      });
+    })
+    .catch((err) => console.log(err));
 };
