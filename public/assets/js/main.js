@@ -1,5 +1,3 @@
-
-
 document.querySelector('.img').addEventListener('click', () => {
   document.querySelector('#imageUpload').click();
 
@@ -9,7 +7,7 @@ document.querySelector('.img').addEventListener('click', () => {
       console.log(fileName);
       document.querySelector('#avatarImg').src =
         window.URL.createObjectURL(fileName);
-      //   document.querySelector('#imageUpload').disabled = true;
+      document.querySelector('#imageUpload').style.pointerEvents = 'none';
       document.querySelector('.saveImg').style.display = 'block';
       //   fs.writeFile(path.resolve(__dirname,`./images/${fileName}`), imageBuffer, () => console.log('image downloaded'));
     }

@@ -49,5 +49,7 @@ exports.getUserDetail = (req, res, next) => {
 };
 
 exports.postUserDetail = (req, res, next) => {
-  const { image, id } = req.body;
+  const { avatar, id } = req.body;
+  console.log(req.file);
 };
+
