@@ -6,10 +6,10 @@
 <%- include('./includes/navigation.ejs') %>
 <div class="card">
     <div class="img">
-      <img src="assets/images/avatar.png" alt="avatar" id="avatarImg">
+      <img src="<%= user.image[0] %>" alt="avatar" id="avatarImg">
       <form action="/user-detail" method="POST" enctype="multipart/form-data">
         <div class="imageUpload">
-             <input type="file" class="form-control" name="avatar" id="imageUpload" >
+             <input type="file" class="form-control" name="image" id="imageUpload" >
              <input type="hidden" name="id" value="<%= user._id %>">
         </div>
         <div class="saveImg">

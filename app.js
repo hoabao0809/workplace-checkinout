@@ -36,7 +36,7 @@ dbConnect()
             startDate: new Date('2022-01-01'),
             department: 'IT',
             annualLeave: 13,
-            image: '/assets/images/avatar.png',
+            image: ['/assets/images/avatars/avatar.png'],
           });
           user.save();
         }

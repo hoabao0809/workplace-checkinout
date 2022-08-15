@@ -7,7 +7,7 @@ exports.getHome = (req, res, next) => {
 
 // check if user checked in
 exports.checkedIn = (req, res, next) => {
-  User.findById('62f258c5f303a1cb52676250')
+  User.findById('62fa04cd85d21aefed61f0ca')
     .then((user) => {
       if (user) {
         req.user = user;
@@ -49,7 +49,12 @@ exports.getUserDetail = (req, res, next) => {
 };
 
 exports.postUserDetail = (req, res, next) => {
-  const { avatar, id } = req.body;
-  console.log(req.file);
+  const { id } = req.body;
+  User.findById(id)
+    .then((user) => {
+      user.image.unshift('/assets/images/avatars/' + req.file.filename);
+      user.save();
+      res.redirect(`/user-detail`);
+    })
+    .catch((err) => console.log(err));
 };
-

@@ -6,7 +6,7 @@ const path = require('path');
 const imageStorage = multer.diskStorage({
   destination: 'public/assets/images/avatars/', // Destination to store image
   filename: (req, file, cb) => {
-    cb(null, file.originalname + '_' + Date.now() + path.extname(file.originalname));
+    cb(null, Date.now() + '_' + file.originalname);
   },
 });
 
@@ -29,7 +29,7 @@ router.get('/attendance-details', attendanceController.getAttendanceDetails);
 router.get('/user-detail', userController.getUserDetail);
 router.post(
   '/user-detail',
-  upload.single('avatar'),
+  upload.single('image'),
   userController.postUserDetail
 );
 

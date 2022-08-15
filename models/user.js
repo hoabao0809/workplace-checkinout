@@ -29,10 +29,7 @@ const userSchema = new Schema({
     type: Number,
     required: true,
   },
-  image: {
-    type: String,
-    required: true,
-  },
+  image: [{ type: String, required: true }],
 });
 
 userSchema.methods.checkStatus = function (type, workplace) {
