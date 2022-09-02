@@ -1,8 +1,8 @@
 const User = require('../models/user');
 const Status = require('../models/status');
 
-exports.getHome = (req, res, next) => {
-  res.render('home', { pageTitle: 'Trang chủ', user: req.user });
+exports.getHome = (req, res) => {
+  res.render('home', { pageTitle: 'Trang chủ', user: req.user, css: 'home' });
 };
 
 // check if user checked in
@@ -35,7 +35,7 @@ exports.checkedIn = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
-exports.getUserDetail = (req, res, next) => {
+exports.getUserDetail = (req, res) => {
   User.findById(req.user._id)
     .then((user) => {
       console.log(user);
@@ -48,7 +48,7 @@ exports.getUserDetail = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
-exports.postUserDetail = (req, res, next) => {
+exports.postUserDetail = (req, res) => {
   const { id } = req.body;
   User.findById(id)
     .then((user) => {
@@ -57,4 +57,17 @@ exports.postUserDetail = (req, res, next) => {
       res.redirect(`/user-detail`);
     })
     .catch((err) => console.log(err));
+};
+
+exports.getStatistics = (req, res) => {
+  req.user.getStatistics().then((statistics) => {
+    console.log(statistics);
+    res.render('statistics', {
+      pageTitle: 'Tra cứu thông tin làm việc',
+      css: 'statistics',
+      user: req.user,
+      statistics,
+      type: 'details',
+    });
+  });
 };

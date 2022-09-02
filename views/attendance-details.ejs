@@ -4,6 +4,8 @@
 
 <body>
 <%- include('./includes/navigation.ejs') %>
+
+<div class="attendance-content">
 <strong><h2>Ngày làm việc: <%= attendance.date %></h2></strong>
         <table>
             <thead>
@@ -45,22 +47,6 @@
         </tbody>
         </table>
 
+    </div>        
 
-
-
-
-<!-- 
-    {
-        _id: new ObjectId("62f6326a094ce40a72853b19"),
-        userId: new ObjectId("62f258c5f303a1cb52676250"),
-        date: '8/12/2022',
-        details: [
-          {
-            startTime: 2022-08-12T10:58:49.949Z,
-            endTime: null,
-            workplace: 'Khách hàng',
-            _id: new ObjectId("62f6326a094ce40a72853b1a")
-          }
-        ],
-        __v: 0
-      } -->
+<%- include('./includes/footer.ejs') %>

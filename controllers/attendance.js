@@ -4,7 +4,7 @@ exports.getAttendance = (req, res, next) => {
   res.render('attendance', {
     user: req.user,
     pageTitle: 'Đăng ký làm việc',
-    css: 'register'
+    css: 'home',
   });
 };
 

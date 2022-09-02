@@ -1,10 +1,10 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const User = require("./user");
+const User = require('./user');
 const absenceSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
     required: true,
   },
   date: {
@@ -31,26 +31,26 @@ absenceSchema.statics.addAbsence = function (
   reason
 ) {
   if (type == 1) {
-    const dateArr = dates.split(",");
+    const dateArr = dates.split(',');
     const newAbsence = [];
     dateArr.forEach((date) => {
       newAbsence.push({
-        userId: userId,
+        userId,
         date: new Date(date),
         days: 1,
-        reason: reason,
+        reason,
       });
     });
     return this.insertMany(newAbsence);
   } else if (type == 0) {
     const newAbsence = {
-      userId: userId,
+      userId,
       date: new Date(date),
       days: hours / 8,
-      reason: reason,
+      reason,
     };
     return this.create(newAbsence);
   }
 };
 
-module.exports = mongoose.model("Absence", absenceSchema);
+module.exports = mongoose.model('Absence', absenceSchema);

@@ -3,7 +3,6 @@ img {
   display: block;
 }
 
-/* Utilities */
 .card::after,
 .card img {
   border-radius: 50%;
@@ -16,7 +15,8 @@ img {
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.5);
   max-width: 80%;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 2px #00000033;
+
   margin: 1rem;
   position: relative;
   transform-style: preserve-3d;
@@ -88,10 +88,13 @@ img {
 }
 
 .imageUpload {
+  position: absolute;
   display: none;
   width: 0;
   height: 0;
   overflow: hidden;
+  top: 0;
+  left: 0;
 }
 
 .saveImg {
@@ -112,4 +115,10 @@ img {
 
 .details {
   font-size: 1.5rem;
+}
+
+.button {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 10rem;
 }

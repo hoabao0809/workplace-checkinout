@@ -3,8 +3,13 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 
+const userController = require('../controllers/user');
+const attendanceController = require('../controllers/attendance');
+const absenceController = require('../controllers/absence');
+const covidController = require('../controllers/covid');
+
 const imageStorage = multer.diskStorage({
-  destination: 'public/assets/images/avatars/', // Destination to store image
+  destination: 'public/assets/images/avatars/',
   filename: (req, file, cb) => {
     cb(null, Date.now() + '_' + file.originalname);
   },
@@ -14,9 +19,6 @@ const upload = multer({
   storage: imageStorage,
 });
 
-const userController = require('../controllers/user');
-const attendanceController = require('../controllers/attendance');
-
 // Homepage
 router.get('/', userController.getHome);
 
@@ -25,6 +27,10 @@ router.get('/attendance', attendanceController.getAttendance);
 router.post('/attendance', attendanceController.postAttendance);
 router.get('/attendance-details', attendanceController.getAttendanceDetails);
 
+// Absence Page
+router.get('/absence', absenceController.getAbsence);
+router.post('/absence', absenceController.postAbsence);
+
 // USer detail
 router.get('/user-detail', userController.getUserDetail);
 router.post(
@@ -32,5 +38,13 @@ router.post(
   upload.single('image'),
   userController.postUserDetail
 );
+
+// Statistic
+router.get('/statistics', userController.getStatistics);
+
+// Covid page
+router.get('/covid', covidController.getCovid);
+router.get('/covid-details', covidController.getCovidDetails);
+router.post('/covid', covidController.postCovid);
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Status = require('../models/status');
 const Attendance = require('../models/attendance');
+const Absence = require('../models/absence');
 
 const Schema = mongoose.Schema;
 
@@ -130,6 +131,40 @@ userSchema.methods.getAttendanceDetails = function () {
       })
       .catch((err) => console.log(err));
   });
+};
+
+userSchema.methods.getStatistics = function () {
+  const statistics = [];
+
+  return Attendance.find({ userId: this._id })
+    .then((attendances) => {
+      attendances.forEach((attendance) => {
+        statistics.push({
+          date: attendance.date,
+          details: attendance.details,
+          attend: true,
+        });
+      });
+
+      return Absence.find({ userId: this._id }).then((absences) => {
+        absences.sort((a, b) => {
+          return new Date(a.date) - new Date(b.date);
+        });
+        absences.forEach((absence) => {
+          statistics.push({
+            date: absence.date.toLocaleDateString(),
+            reason: absence.reason,
+            days: absence.days,
+            attend: false,
+          });
+        });
+        statistics.sort((a, b) => {
+          return new Date(a.date) - new Date(b.date);
+        });
+        return statistics;
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 module.exports = mongoose.model('User', userSchema);
