@@ -75,7 +75,6 @@ userSchema.methods.checkIn = function (attendId, startTime, workplace) {
 
   if (attendId) {
     return Attendance.findById(attendId).then((attendance) => {
-      console.log(attendId);
       // Check if user has not checked out
       if (date === attendance.date) {
         attendance.details.unshift({
@@ -139,10 +138,25 @@ userSchema.methods.getStatistics = function () {
   return Attendance.find({ userId: this._id })
     .then((attendances) => {
       attendances.forEach((attendance) => {
+        if (!attendance.details[0].endTime) {
+          attendance.totalTime = 'Chưa kết thúc';
+        } else {
+          attendance.totalTime = attendance.details.reduce((sum, detail) => {
+            return sum + (detail.endTime - detail.startTime) / 3600000;
+          }, 0);
+          attendance.overTime =
+            attendance.totalTime > 8 ? attendance.totalTime - 8 : 0;
+          attendance.underTime =
+            attendance.totalTime < 8 ? 8 - attendance.totalTime : 0;
+        }
+
         statistics.push({
           date: attendance.date,
           details: attendance.details,
           attend: true,
+          totalTime: attendance.totalTime,
+          overTime: attendance.overTime,
+          underTime: attendance.underTime,
         });
       });
 

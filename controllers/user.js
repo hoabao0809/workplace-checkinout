@@ -61,7 +61,16 @@ exports.postUserDetail = (req, res) => {
 
 exports.getStatistics = (req, res) => {
   req.user.getStatistics().then((statistics) => {
-    console.log(statistics);
+    statistics.forEach((item) => {
+      if (typeof item.totalTime === 'string') {
+        item.salary = '-';
+      } else {
+        item.salary = (
+          req.user.salaryScale * 3000000 +
+          (item.overTime - item.underTime) * 200000
+        ).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+      }
+    });
     res.render('statistics', {
       pageTitle: 'Tra cứu thông tin làm việc',
       css: 'statistics',

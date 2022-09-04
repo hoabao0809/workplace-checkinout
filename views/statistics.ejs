@@ -9,10 +9,11 @@
     <div class="wildcard-container">
      
         <form id="wildcard" action="/statistic-search" method="GET">
-            <label for="date">Tìm kiếm theo:</label>
-            <select name="type" id="field">
-                <option value="date">Tháng/Ngày/Năm</option>
-            </select>
+            <label for="date">Tìm kiếm </label>
+                <select name="type" id="category">
+                    <option value="jobDetail">thông tin giờ làm</option>
+                    <option value="monthSalary">lương tháng</option>
+                </select>
             <input type="text" name="search" id="search">
             <input type="submit" value="Tìm">
         </form>
@@ -31,6 +32,7 @@
                         <th>Giờ bắt đầu</th>
                         <th>Giờ kết thúc</th>
                         <th>Thời gian làm việc</th>
+                        <th>Lương</th>
                     </tr>
                 </thead>
 
@@ -47,6 +49,7 @@
                                 <% if(item.details[0].endTime) { %>
                                     <td><%= item.details[0].endTime.toLocaleTimeString() %></td>
                                     <td><%= ((item.details[0].endTime - item.details[0].startTime)/(3600 * 1000)).toFixed(1) %></td>
+                                    <td rowspan="<%= item.details.length + 1 %>"><%= item.salary %></td>
                                 <% }else { %>
                                     <td>--</td>
                                     <td>--</td>
@@ -62,6 +65,7 @@
                                         <% if(detail.endTime) { %>
                                             <td><%= detail.endTime.toLocaleTimeString() %></td>
                                             <td><%= ((detail.endTime - detail.startTime)/(3600 * 1000)).toFixed(1) %></td>
+                                            
                                         <% }else { %>
                                             <td>--</td>
                                             <td>--</td>
@@ -88,9 +92,11 @@
                                 <% if(item.details[0].endTime) { %>
                                     <td><%= item.details[0].endTime.toLocaleTimeString() %></td>
                                     <td><%= ((item.details[0].endTime - item.details[0].startTime)/(3600 * 1000)).toFixed(1) %></td>
+                                    <td rowspan="<%= item.details.length + 1 %>"><%= item.salary %></td>
                                 <% }else { %>
                                     <td>--</td>
                                     <td>--</td>
+                                    <td rowspan="2">--</td>
                                 <%} %>
                             </tr>
                             <% if(item.details[0].endTime){ %>
@@ -106,6 +112,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                             </tr>
                         <% } %> 
                     <% }) %>
@@ -114,10 +121,7 @@
 
         <%} %>
     </div>
-    <% if(type == 'salary' && statistics.length > 0){ %>
-        <p>Thời gian làm thêm: <%= statistics.overTime.toFixed(1) %> - Thời gian làm thiếu: <%= statistics.underTime.toFixed(1) %></p>
-        <h3>Tiền lương: <%= statistics.salary %></h3>
-    <% } %>
+  
 
 </div>
 
