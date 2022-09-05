@@ -22,7 +22,7 @@
     </div>
 
     <div class="statistic-wrapper">
-        <% if (type == 'search' && statistics.length == 0){ %>
+        <% if (statistics.length === 0){ %>
             <h2>Không có dữ liệu</h2>
         <% }else{ %>
             <table>
@@ -34,7 +34,7 @@
                         <th>Giờ bắt đầu</th>
                         <th>Giờ kết thúc</th>
                         <th>Thời gian làm việc</th>
-                        <th>Lương</th>
+                        <th>Lương ngày</th>   
                     </tr>
                 </thead>
 
@@ -51,7 +51,7 @@
                                 <% if(item.details[0].endTime) { %>
                                     <td><%= item.details[0].endTime.toLocaleTimeString() %></td>
                                     <td><%= ((item.details[0].endTime - item.details[0].startTime)/(3600 * 1000)).toFixed(1) %></td>
-                                    <td rowspan="<%= item.details.length + 1 %>"><%= item.salary %></td>
+                                    <td rowspan="<%= item.details.length + 1 %>"><%= item.salary.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
                                 <% }else { %>
                                     <td>--</td>
                                     <td>--</td>
@@ -94,7 +94,7 @@
                                 <% if(item.details[0].endTime) { %>
                                     <td><%= item.details[0].endTime.toLocaleTimeString() %></td>
                                     <td><%= ((item.details[0].endTime - item.details[0].startTime)/(3600 * 1000)).toFixed(1) %></td>
-                                    <td rowspan="<%= item.details.length + 1 %>"><%= item.salary %></td>
+                                    <td rowspan="<%= item.details.length + 1 %>"><%= item.salary.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %></td>
                                 <% }else { %>
                                     <td>--</td>
                                     <td>--</td>
@@ -119,6 +119,12 @@
                         <% } %> 
                     <% }) %>
                 </tbody>
+
+                <tfoot>
+                    <% if (type === 'monthSalary') { %>
+                        <th colspan="6">Lương tháng <%= month %>: <%= statistics.monthSalary.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %> </th>
+                    <% } %> 
+                </tfoot>
             </table>
 
         <%} %>

@@ -73,17 +73,14 @@ exports.getStatistics = (req, res) => {
 
 exports.setStatisticSearch = (req, res) => {
   const { type, search } = req.query;
-  // const rgx = (pattern) => new RegExp(`.*${pattern}.*`);
-  // const searchRgx = rgx(search);
-  // const searchRgx = new RegExp(search);
-
   req.user.getStatistics({ type, search }).then((statistics) => {
     res.render('statistics', {
       pageTitle: 'Tìm kiếm thông tin',
       css: 'statistics',
       user: req.user,
       statistics,
-      type: 'search',
+      type,
+      month: search,
     });
   });
 };

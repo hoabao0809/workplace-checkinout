@@ -141,6 +141,8 @@ userSchema.methods.getStatistics = function (argument) {
         const rgx = (pattern) => new RegExp(`.*${pattern}.*`);
         const searchRgx = rgx(search);
 
+        console.log(searchRgx);
+
         return this.renderStatistics({ date: searchRgx });
 
       case 'monthSalary':
@@ -157,8 +159,10 @@ userSchema.methods.getStatistics = function (argument) {
 userSchema.methods.renderStatistics = function (arg) {
   const user = this;
   const statistics = [];
+  let monthSalary = 0;
 
   return Attendance.find({ ...arg, userId: user._id })
+    .exec()
     .then((attendances) => {
       attendances.forEach((attendance) => {
         if (!attendance.details[0].endTime) {
@@ -176,10 +180,10 @@ userSchema.methods.renderStatistics = function (arg) {
         if (typeof attendance.totalTime === 'string') {
           attendance.salary = '-';
         } else {
-          attendance.salary = (
+          attendance.salary =
             user.salaryScale * 3000000 +
-            (attendance.overTime - attendance.underTime) * 200000
-          ).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+            (attendance.overTime - attendance.underTime) * 200000;
+          monthSalary = monthSalary + attendance.salary;
         }
 
         statistics.push({
@@ -193,23 +197,26 @@ userSchema.methods.renderStatistics = function (arg) {
         });
       });
 
-      return Absence.find({ ...arg, userId: this._id }).then((absences) => {
-        absences.sort((a, b) => {
-          return new Date(a.date) - new Date(b.date);
-        });
-        absences.forEach((absence) => {
-          statistics.push({
-            date: absence.date,
-            reason: absence.reason,
-            days: absence.days,
-            attend: false,
+      return Absence.find({ ...arg, userId: this._id })
+        .exec()
+        .then((absences) => {
+          absences.sort((a, b) => {
+            return new Date(a.date) - new Date(b.date);
           });
+          absences.forEach((absence) => {
+            statistics.push({
+              date: absence.date,
+              reason: absence.reason,
+              days: absence.days,
+              attend: false,
+            });
+          });
+          statistics.sort((a, b) => {
+            return new Date(a.date) - new Date(b.date);
+          });
+          statistics.monthSalary = monthSalary;
+          return statistics;
         });
-        statistics.sort((a, b) => {
-          return new Date(a.date) - new Date(b.date);
-        });
-        return statistics;
-      });
     })
     .catch((err) => console.log(err));
 };
