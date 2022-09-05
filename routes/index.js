@@ -41,6 +41,7 @@ router.post(
 
 // Statistic
 router.get('/statistics', userController.getStatistics);
+router.get('/statistic-search', userController.setStatisticSearch)
 
 // Covid page
 router.get('/covid', covidController.getCovid);

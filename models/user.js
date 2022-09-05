@@ -132,53 +132,131 @@ userSchema.methods.getAttendanceDetails = function () {
   });
 };
 
-userSchema.methods.getStatistics = function () {
+userSchema.methods.getStatistics = function (argument) {
+  const user = this;
   const statistics = [];
 
-  return Attendance.find({ userId: this._id })
-    .then((attendances) => {
-      attendances.forEach((attendance) => {
-        if (!attendance.details[0].endTime) {
-          attendance.totalTime = 'Chưa kết thúc';
-        } else {
-          attendance.totalTime = attendance.details.reduce((sum, detail) => {
-            return sum + (detail.endTime - detail.startTime) / 3600000;
-          }, 0);
-          attendance.overTime =
-            attendance.totalTime > 8 ? attendance.totalTime - 8 : 0;
-          attendance.underTime =
-            attendance.totalTime < 8 ? 8 - attendance.totalTime : 0;
-        }
+  if (argument !== null) {
+    const dateSearch = argument.searchRgx;
 
-        statistics.push({
-          date: attendance.date,
-          details: attendance.details,
-          attend: true,
-          totalTime: attendance.totalTime,
-          overTime: attendance.overTime,
-          underTime: attendance.underTime,
-        });
-      });
+    return Attendance.find({
+      userId: this._id,
+      date: dateSearch,
+    })
+      .then((attendances) => {
+        attendances.forEach((attendance) => {
+          if (!attendance.details[0].endTime) {
+            attendance.totalTime = 'Chưa kết thúc';
+          } else {
+            attendance.totalTime = attendance.details.reduce((sum, detail) => {
+              return sum + (detail.endTime - detail.startTime) / 3600000;
+            }, 0);
+            attendance.overTime =
+              attendance.totalTime > 8 ? attendance.totalTime - 8 : 0;
+            attendance.underTime =
+              attendance.totalTime < 8 ? 8 - attendance.totalTime : 0;
+          }
 
-      return Absence.find({ userId: this._id }).then((absences) => {
-        absences.sort((a, b) => {
-          return new Date(a.date) - new Date(b.date);
-        });
-        absences.forEach((absence) => {
+          if (typeof attendance.totalTime === 'string') {
+            attendance.salary = '-';
+          } else {
+            attendance.salary = (
+              user.salaryScale * 3000000 +
+              (attendance.overTime - attendance.underTime) * 200000
+            ).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+          }
+
           statistics.push({
-            date: absence.date.toLocaleDateString(),
-            reason: absence.reason,
-            days: absence.days,
-            attend: false,
+            date: attendance.date,
+            details: attendance.details,
+            attend: true,
+            totalTime: attendance.totalTime,
+            overTime: attendance.overTime,
+            underTime: attendance.underTime,
+            salary: attendance.salary,
           });
         });
-        statistics.sort((a, b) => {
-          return new Date(a.date) - new Date(b.date);
+
+        return Absence.find({
+          userId: this._id,
+          date: dateSearch,
+        }).then((absences) => {
+          absences.sort((a, b) => {
+            return new Date(a.date) - new Date(b.date);
+          });
+          absences.forEach((absence) => {
+            statistics.push({
+              date: absence.date,
+              reason: absence.reason,
+              days: absence.days,
+              attend: false,
+            });
+          });
+          statistics.sort((a, b) => {
+            return new Date(a.date) - new Date(b.date);
+          });
+          return statistics;
         });
-        return statistics;
-      });
-    })
-    .catch((err) => console.log(err));
+      })
+      .catch((err) => console.log(err));
+  }
+  
+  if (argument === null) {
+    return Attendance.find({ userId: this._id })
+      .then((attendances) => {
+        attendances.forEach((attendance) => {
+          if (!attendance.details[0].endTime) {
+            attendance.totalTime = 'Chưa kết thúc';
+          } else {
+            attendance.totalTime = attendance.details.reduce((sum, detail) => {
+              return sum + (detail.endTime - detail.startTime) / 3600000;
+            }, 0);
+            attendance.overTime =
+              attendance.totalTime > 8 ? attendance.totalTime - 8 : 0;
+            attendance.underTime =
+              attendance.totalTime < 8 ? 8 - attendance.totalTime : 0;
+          }
+
+          if (typeof attendance.totalTime === 'string') {
+            attendance.salary = '-';
+          } else {
+            attendance.salary = (
+              user.salaryScale * 3000000 +
+              (attendance.overTime - attendance.underTime) * 200000
+            ).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+          }
+
+          statistics.push({
+            date: attendance.date,
+            details: attendance.details,
+            attend: true,
+            totalTime: attendance.totalTime,
+            overTime: attendance.overTime,
+            underTime: attendance.underTime,
+            salary: attendance.salary,
+          });
+        });
+
+        return Absence.find({ userId: this._id }).then((absences) => {
+          absences.sort((a, b) => {
+            return new Date(a.date) - new Date(b.date);
+          });
+          absences.forEach((absence) => {
+            statistics.push({
+              date: absence.date,
+              reason: absence.reason,
+              days: absence.days,
+              attend: false,
+            });
+          });
+          statistics.sort((a, b) => {
+            return new Date(a.date) - new Date(b.date);
+          });
+          return statistics;
+        });
+      })
+      .catch((err) => console.log(err));
+  }
 };
 
 module.exports = mongoose.model('User', userSchema);

@@ -8,7 +8,7 @@ const absenceSchema = new Schema({
     required: true,
   },
   date: {
-    type: Date,
+    type: String,
     required: true,
     unique: true,
   },
@@ -36,16 +36,17 @@ absenceSchema.statics.addAbsence = function (
     dateArr.forEach((date) => {
       newAbsence.push({
         userId,
-        date: new Date(date),
+        date: new Date(date).toLocaleDateString(),
         days: 1,
         reason,
       });
     });
     return this.insertMany(newAbsence);
   } else if (type == 0) {
+    const newDate = new Date(date);
     const newAbsence = {
       userId,
-      date: new Date(date),
+      date: new Date(date).toLocaleDateString(),
       days: hours / 8,
       reason,
     };

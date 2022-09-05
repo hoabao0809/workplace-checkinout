@@ -60,17 +60,7 @@ exports.postUserDetail = (req, res) => {
 };
 
 exports.getStatistics = (req, res) => {
-  req.user.getStatistics().then((statistics) => {
-    statistics.forEach((item) => {
-      if (typeof item.totalTime === 'string') {
-        item.salary = '-';
-      } else {
-        item.salary = (
-          req.user.salaryScale * 3000000 +
-          (item.overTime - item.underTime) * 200000
-        ).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-      }
-    });
+  req.user.getStatistics(null).then((statistics) => {
     res.render('statistics', {
       pageTitle: 'Tra cứu thông tin làm việc',
       css: 'statistics',
@@ -80,3 +70,34 @@ exports.getStatistics = (req, res) => {
     });
   });
 };
+
+exports.setStatisticSearch = (req, res) => {
+  const { type, search } = req.query;
+  const rgx = (pattern) => new RegExp(`.*${pattern}.*`);
+  const searchRgx = rgx(search);
+  // const searchRgx = new RegExp(search);
+  const keywords = { type, searchRgx };
+
+  req.user.getStatistics(keywords).then((statistics) => {
+    console.log('ket qua', statistics);
+    res.render('statistics', {
+      pageTitle: 'Tìm kiếm thông tin',
+      css: 'statistics',
+      user: req.user,
+      statistics,
+      type: 'search',
+    });
+  });
+};
+
+// switch (type) {
+//   case 'jobDetail':
+//     console.log('jobDetail');
+//     const currStatistics = [];
+
+//     break;
+
+//   case 'monthSalary':
+//     console.log('jobDetail');
+//     break;
+// }

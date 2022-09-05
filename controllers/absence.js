@@ -9,10 +9,9 @@ exports.getAbsence = (req, res, next) => {
   Absence.find({ userId: req.user._id })
     .then((absences) => {
       const absencesDates = absences.map((item) =>
-        item.date.toLocaleDateString()
+        new Date(item.date).toLocaleDateString()
       );
       disabledDates.push(...absencesDates);
-      console.log('1: ', disabledDates);
       return Attendance.find({ userId: req.user._id });
     })
     .then((attendance) => {
@@ -21,7 +20,6 @@ exports.getAbsence = (req, res, next) => {
         new Date(item.date).toLocaleDateString()
       );
       disabledDates.push(...attendanceDates);
-      console.log('2: ', disabledDates);
 
       res.render('absence', {
         css: 'absence',
