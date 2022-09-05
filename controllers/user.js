@@ -73,13 +73,11 @@ exports.getStatistics = (req, res) => {
 
 exports.setStatisticSearch = (req, res) => {
   const { type, search } = req.query;
-  const rgx = (pattern) => new RegExp(`.*${pattern}.*`);
-  const searchRgx = rgx(search);
+  // const rgx = (pattern) => new RegExp(`.*${pattern}.*`);
+  // const searchRgx = rgx(search);
   // const searchRgx = new RegExp(search);
-  const keywords = { type, searchRgx };
 
-  req.user.getStatistics(keywords).then((statistics) => {
-    console.log('ket qua', statistics);
+  req.user.getStatistics({ type, search }).then((statistics) => {
     res.render('statistics', {
       pageTitle: 'Tìm kiếm thông tin',
       css: 'statistics',
@@ -89,15 +87,3 @@ exports.setStatisticSearch = (req, res) => {
     });
   });
 };
-
-// switch (type) {
-//   case 'jobDetail':
-//     console.log('jobDetail');
-//     const currStatistics = [];
-
-//     break;
-
-//   case 'monthSalary':
-//     console.log('jobDetail');
-//     break;
-// }
