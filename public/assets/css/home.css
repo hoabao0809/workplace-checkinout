@@ -10,7 +10,7 @@
 
 .wrapper {
   background: #d0bbe5;
-  padding: 50px 55px 50px;
+  padding: 25px 30px;
   border-radius: 5px;
 }
 
@@ -39,8 +39,8 @@
 }
 
 .card {
-  width: 400px;
-  height: 600px;
+  width: 16rem;
+  height: 30rem;
   background: #fff;
   padding: 20px 20px 0;
   position: relative;
@@ -55,11 +55,16 @@
 .card .details__item {
   display: flex;
   justify-content: space-between;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .details__item > span:first-child {
   font-weight: bold;
+}
+
+.details__item > span:nth-child(2) {
+  text-align: right;
+  margin-left: auto;
 }
 
 .details__item .online {
@@ -101,7 +106,8 @@
   font-weight: 400;
   color: #fff;
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 1rem;
+  margin-bottom: 0;
 }
 
 /* Attendance */
@@ -146,12 +152,12 @@
 }
 
 .checkout {
-  margin: .75rem auto ;
+  margin: 0.75rem auto 0;
   border-radius: 50%;
   background: red;
   color: #fff;
-  width: 8rem;
-  height: 8rem;
+  width: 6rem;
+  height: 6rem;
   border-radius: 50%;
   font-size: 1.25rem;
   font-weight: bold;

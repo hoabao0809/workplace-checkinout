@@ -24,6 +24,7 @@
                         <thead>
                             <tr>
                                 <th>Ngày đăng ký</th>
+                                <th>Giờ đăng ký</th>
                                 <th>Nhiệt độ cơ thể</th>
                             </tr>
                         </thead>
@@ -31,6 +32,7 @@
                             <% covid.bodyTemps.forEach(item => { %>
                                 <tr>
                                     <td><%= item.date.toLocaleDateString() %></td>
+                                    <td><%= item.date.toLocaleTimeString() %></td>
                                     <td><%= item.temperature %> <sup>o</sup>C</td>
                                 </tr>
                             <% }) %>

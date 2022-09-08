@@ -38,7 +38,6 @@ exports.checkedIn = (req, res, next) => {
 exports.getUserDetail = (req, res) => {
   User.findById(req.user._id)
     .then((user) => {
-      console.log(user);
       res.render('user-detail', {
         pageTitle: 'Chi tiết nhân viên',
         user,

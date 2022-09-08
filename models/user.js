@@ -141,8 +141,6 @@ userSchema.methods.getStatistics = function (argument) {
         const rgx = (pattern) => new RegExp(`.*${pattern}.*`);
         const searchRgx = rgx(search);
 
-        console.log(searchRgx);
-
         return this.renderStatistics({ date: searchRgx });
 
       case 'monthSalary':
