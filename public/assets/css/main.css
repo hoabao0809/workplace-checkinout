@@ -7,9 +7,24 @@
   font-family: 'Josefin Sans', sans-serif;
 }
 
-html,
-body {
-  overflow-x: hidden;
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background:#73707035;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #55555578;
 }
 
 a {
@@ -36,7 +51,7 @@ h4 {
 }
 
 section {
-  height: 100vh;
+  height: 100%;
   background: #f0f2f5;
 }
 
@@ -131,9 +146,15 @@ section {
 }
 
 .main {
-  width: 70%;
+  /* width: 70%; */
+  height: 100%;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin: 3rem auto 0;
+  margin: 2rem auto;
+}
+
+footer {
+  height: 50vh;
+  background: #f0f2f5;
 }
