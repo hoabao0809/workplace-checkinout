@@ -41,13 +41,13 @@
   font-size: 1.5rem;
 }
 
-h2 {
-  text-transform: uppercase;
-}
-
 h3 {
   margin-bottom: 1rem;
   font-weight: 600;
+}
+
+.covid-title h3 {
+  text-transform: uppercase;
 }
 
 .covid-wrapper {
