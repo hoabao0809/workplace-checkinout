@@ -52,10 +52,8 @@ exports.postCovid = (req, res, next) => {
 
 // Get Covid Details Page
 exports.getCovidDetails = (req, res, next) => {
-  // Get Covid Details by User
   Covid.findOne({ userId: req.user._id })
     .then((covid) => {
-      // Check if user has no covid data
       if (covid) {
         return covid;
       } else {
