@@ -53,6 +53,12 @@
   margin-bottom: 1rem;
 }
 
+.attendance-img {
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
 .card .details__item {
   display: flex;
   justify-content: space-between;
@@ -129,9 +135,11 @@
 
 /* Attendance */
 .attendance .card-img {
-  width: 50% !important;
+  width: 8rem;
+  height: 8rem;
   margin: 0 auto;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .attendance .status {
@@ -154,7 +162,6 @@
 .attendance select {
   font-size: 1.25rem;
   padding: 0.25rem;
-  margin-bottom: 1.5rem;
 }
 
 .status.online {
@@ -211,5 +218,14 @@
 
   .offduty {
     margin-top: 1rem;
+  }
+
+  .attendance select {
+    margin-bottom: 1.5rem;
+  }
+
+  .attendance .card-img {
+    width: 13rem;
+    height: 13rem;
   }
 }

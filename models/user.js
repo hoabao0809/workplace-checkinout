@@ -35,19 +35,19 @@ const userSchema = new Schema({
 
 userSchema.methods.checkStatus = function (type, workplace) {
   const user = this;
-  let currentAttendId;
+  let currAttendId;
   return Status.findOne({ userId: user._id }).then((status) => {
-    currentAttendId = status.attendId;
+    currAttendId = status.attendId;
 
     switch (type) {
       case 'checkIn':
-        return this.checkIn(currentAttendId, new Date(), workplace)
+        return this.checkIn(currAttendId, new Date(), workplace)
           .then((result) => {
-            currentAttendId = result._id;
+            currAttendId = result._id;
             return Status.findOne({ userId: user._id });
           })
           .then((_status) => {
-            _status.attendId = currentAttendId;
+            _status.attendId = currAttendId;
             _status.workplace = workplace;
             _status.isWorking = true;
             return _status.save();
@@ -55,7 +55,7 @@ userSchema.methods.checkStatus = function (type, workplace) {
           .catch((err) => console.log(err));
 
       case 'checkOut':
-        return this.checkOut(currentAttendId, new Date())
+        return this.checkOut(currAttendId, new Date())
           .then((_result) => {
             return Status.findOne({ userId: user._id });
           })
@@ -75,6 +75,21 @@ userSchema.methods.checkIn = function (attendId, startTime, workplace) {
 
   if (attendId) {
     return Attendance.findById(attendId).then((attendance) => {
+      if (!attendance) {
+        const newAttend = new Attendance({
+          userId: this._id,
+          date,
+          details: [
+            {
+              startTime,
+              endTime: null,
+              workplace,
+            },
+          ],
+        });
+        return newAttend.save();
+      }
+
       // Check if user has not checked out
       if (date === attendance.date) {
         attendance.details.unshift({

@@ -43,7 +43,6 @@ absenceSchema.statics.addAbsence = function (
     });
     return this.insertMany(newAbsence);
   } else if (type == 0) {
-    const newDate = new Date(date);
     const newAbsence = {
       userId,
       date: new Date(date).toLocaleDateString(),

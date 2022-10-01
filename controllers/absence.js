@@ -21,7 +21,7 @@ exports.getAbsence = (req, res, next) => {
       );
       disabledDates.push(...attendanceDates);
 
-      res.render('absence', {
+      res.render('absence/absence', {
         css: 'absence',
         pageTitle: 'Đăng ký nghỉ phép',
         user: req.user,

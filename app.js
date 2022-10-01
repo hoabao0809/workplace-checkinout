@@ -1,9 +1,9 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 const dbConnect = require('./util/database');
 const userRoutes = require('./routes/index');
+
 const User = require('./models/user');
 
 const userController = require('./controllers/user');
@@ -40,7 +40,7 @@ dbConnect()
           });
           user.save();
         }
-        app.listen(3001);
+        app.listen(3000);
         console.log('Connected');
       })
       .catch((err) => console.log(err));

@@ -8,6 +8,7 @@ const attendanceController = require('../controllers/attendance');
 const absenceController = require('../controllers/absence');
 const covidController = require('../controllers/covid');
 
+// Multer lib: save image 
 const imageStorage = multer.diskStorage({
   destination: 'public/assets/images/avatars/',
   filename: (req, file, cb) => {
