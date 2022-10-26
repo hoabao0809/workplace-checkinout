@@ -2,6 +2,7 @@ const User = require('../models/user');
 const Status = require('../models/status');
 
 exports.getHome = (req, res) => {
+  console.log(req.user.image[0])
   res.render('user/home', {
     pageTitle: 'Trang chủ',
     user: req.user,
