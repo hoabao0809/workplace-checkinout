@@ -40,8 +40,9 @@ dbConnect()
           });
           user.save();
         }
-        app.listen(3000);
-        console.log('Connected');
+        app.listen(8080, '0.0.0.0', () => {
+          console.log('Connected');
+        });
       })
       .catch((err) => console.log(err));
   })

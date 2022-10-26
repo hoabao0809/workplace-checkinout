@@ -101,7 +101,7 @@
                                     <td rowspan="2">--</td>
                                 <%} %>
                             </tr>
-                            <% if(item.details[0].endTime){ %>
+                        <% if(item.details[0].endTime){ %>
                                 <% const totalTime = ((item.details[0].endTime - item.details[0].startTime)/(3600 * 1000)).toFixed(1) %>
                                 <%- include('../includes/finishTime.ejs', {totalTime}) %>
                             <% } else {%>
@@ -129,7 +129,5 @@
 
         <%} %>
     </div>
-  
-
 </div>
 
